@@ -12,10 +12,18 @@ class Places{
     
     var latitude: Double
     var longitude: Double
+    var placeName :String
+    var city :String
+    var postalCode : String
+    var country : String
     
-    init(latitude:Double , longitude: Double) {
+    init(latitude:Double , longitude: Double, placeName:String, city:String, postalCode: String, country:String) {
         self.latitude = latitude
         self.longitude = longitude
+        self.placeName = placeName
+        self.city = city
+        self.postalCode = postalCode
+        self.country = country
     }
     
     

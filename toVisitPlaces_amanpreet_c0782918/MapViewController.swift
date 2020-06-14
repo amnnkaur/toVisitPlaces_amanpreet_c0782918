@@ -15,7 +15,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var locationManager = CLLocationManager()
     var destinationCoordinates : CLLocationCoordinate2D!
     let destCoordinate = MKDirections.Request()
-       
+    let button = UIButton()
     var places:[Places]?
 
     override func viewDidLoad() {
@@ -32,7 +32,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                tap.numberOfTapsRequired = 2
                mapView.addGestureRecognizer(tap)
         loadData()
+        button.setImage(UIImage(systemName: "star.fill"), for: .normal)
     }
+    
+    
     
     func getDataFilePath() -> String {
            let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
@@ -54,9 +57,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 for content in contentArray{
                     //separating each book's content
                     let placeContent = content.components(separatedBy: ",")
-                    if placeContent.count == 4 {
-                        let place = Places(latitude: destinationCoordinates.latitude, longitude: destinationCoordinates.longitude)
-                        places?.append(place)
+                    if placeContent.count == 6 {
+//                        let place = Places(latitude: Double(placeContent[0]), longitude: Double(placeContent[1]), placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
+//                        places?.append(place)
                     }
                 }
             }
@@ -77,7 +80,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
          var saveString = ""
          for place in places!{
-            saveString = "\(saveString)\(place.latitude) \(place.longitude) \n"
+            saveString = "\(saveString)\(place.latitude) \(place.longitude) \(place.placeName) \(place.city) \(place.country) \(place.postalCode)\n"
              do{
             try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
              }
@@ -165,15 +168,31 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                   }
        }
     
-//    func geocode()  {
-//        CLGeocoder().reverseGeocodeLocation() { placemark, error in
-//            guard let placemark = placemark, error == nil else {
-//                completion(nil, error)
-//                return
-//            }
-//            completion(placemark, nil)
-//        }
-//    }
+    func geocode()  {
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: destinationCoordinates.latitude, longitude: destinationCoordinates.longitude)) {  placemark, error in
+           if let error = error as? CLError {
+               print("CLError:", error)
+               return
+            }
+           else if let placemark = placemark?.first {
+        
+                print("name:", placemark.name ?? "unknown")
+                print("neighborhood:", placemark.subLocality ?? "unknown")
+                print("city:", placemark.locality ?? "unknown")
+                print("state:", placemark.administrativeArea ?? "unknown")
+                print("zip code:", placemark.postalCode ?? "unknown")
+                print("country:", placemark.country ?? "unknown", terminator: "\n\n")
+            
+            
+               
+            }
+        
+        }
+    }
+    
+  
+    
+   
 }
 
 extension MapViewController {
@@ -184,23 +203,23 @@ extension MapViewController {
             if annotation is MKUserLocation {
                 return nil
             }
-    
-                let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "droppablePin")
-                pinAnnotation.animatesDrop = true
-                pinAnnotation.pinTintColor = .orange
+        
+                let pinAnnotation = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "marker")
+                pinAnnotation.markerTintColor = .systemPink
+                pinAnnotation.glyphTintColor = .white
                 pinAnnotation.canShowCallout = true
-                pinAnnotation.rightCalloutAccessoryView = UIButton(type: .contactAdd)
-    
+                pinAnnotation.rightCalloutAccessoryView = UIButton(type: .infoDark)
                 return pinAnnotation
     
         }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
          let alertController = UIAlertController(title: "Add to Favourites", message:
-                       "Do you want to add marked Location to favourites?", preferredStyle: .actionSheet)
+            "Do you want to add marked Location to favourites?", preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "Yes", style:  .default, handler: { (UIAlertAction) in
-//            geocode(latitude: <#T##Double#>, longitude: <#T##Double#>, completion: <#T##([CLPlacemark]?, Error?) -> Void#>)
+            self.geocode()
         }))
+    
                     alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                     self.present(alertController, animated: true, completion: nil)
                     
