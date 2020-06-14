@@ -9,6 +9,8 @@
 import UIKit
 
 class PlacesTableViewController: UITableViewController {
+    
+    var places : [Places]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,23 +26,27 @@ class PlacesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return places?.count ?? 0
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        
+        let place = places![indexPath.row]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell")
+        cell?.textLabel?.text = "\(place.latitude)"
+        cell?.detailTextLabel?.text = "\(place.longitude)"
+    
 
-        // Configure the cell...
-
-        return cell
+        return cell!
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
