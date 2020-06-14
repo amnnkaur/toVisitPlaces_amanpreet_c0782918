@@ -16,6 +16,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var destinationCoordinates : CLLocationCoordinate2D!
     let destCoordinate = MKDirections.Request()
        
+    var places:[Places]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,58 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                mapView.addGestureRecognizer(tap)
     }
     
+    func getDataFilePath() -> String {
+           let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+           let filePath = documentPath.appending("/places-data.txt")
+           return filePath
+       }
+    
+    func loadData() {
+        places = [Places]()
+        
+        let filePath = getDataFilePath()
+        
+        if FileManager.default.fileExists(atPath: filePath){
+            do{
+                //creating string of file path
+             let fileContent = try String(contentsOfFile: filePath)
+                //separating books from each other
+                let contentArray = fileContent.components(separatedBy: "\n")
+                for content in contentArray{
+                    //separating each book's content
+                    let placeContent = content.components(separatedBy: ",")
+                    if placeContent.count == 4 {
+                        let place = Places(latitude: destinationCoordinates.latitude, longitude: destinationCoordinates.longitude)
+                        places?.append(place)
+                    }
+                }
+            }
+            catch{
+                print(error)
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+         if let placeListVC = segue.destination as? PlacesTableViewController{
+             placeListVC.places = self.places
+         }
+     }
+     
+    @objc func saveData() {
+         let filePath = getDataFilePath()
+
+         var saveString = ""
+         for place in places!{
+            saveString = "\(saveString)\(place.latitude) \(place.longitude) \n"
+             do{
+            try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
+             }
+             catch{
+                 print(error)
+             }
+         }
+     }
     
      @objc func handleTap(recognizer: UITapGestureRecognizer) {
             
@@ -116,7 +169,7 @@ extension MapViewController {
 
 func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(overlay: overlay)
-    renderer.strokeColor = UIColor.systemTeal
+            renderer.strokeColor = UIColor.orange
             renderer.lineWidth = 5.0
             return renderer
      }
