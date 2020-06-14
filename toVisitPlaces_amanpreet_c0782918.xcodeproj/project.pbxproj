@@ -15,6 +15,7 @@
 		2ADB64F324969A3800EC55F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADB64F124969A3800EC55F9 /* LaunchScreen.storyboard */; };
 		2ADB64FB24969B3100EC55F9 /* PlacesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64FA24969B3100EC55F9 /* PlacesTableViewController.swift */; };
 		2ADB64FD24969C3400EC55F9 /* Places.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64FC24969C3400EC55F9 /* Places.swift */; };
+		2ADB64FF2496A1D000EC55F9 /* locationBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADB64FE2496A1D000EC55F9 /* locationBtn.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		2ADB64F424969A3800EC55F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ADB64FA24969B3100EC55F9 /* PlacesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewController.swift; sourceTree = "<group>"; };
 		2ADB64FC24969C3400EC55F9 /* Places.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Places.swift; sourceTree = "<group>"; };
+		2ADB64FE2496A1D000EC55F9 /* locationBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locationBtn.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				2ADB64F424969A3800EC55F9 /* Info.plist */,
 				2ADB64FA24969B3100EC55F9 /* PlacesTableViewController.swift */,
 				2ADB64FC24969C3400EC55F9 /* Places.swift */,
+				2ADB64FE2496A1D000EC55F9 /* locationBtn.png */,
 			);
 			path = toVisitPlaces_amanpreet_c0782918;
 			sourceTree = "<group>";
@@ -134,6 +137,7 @@
 				2ADB64F324969A3800EC55F9 /* LaunchScreen.storyboard in Resources */,
 				2ADB64F024969A3800EC55F9 /* Assets.xcassets in Resources */,
 				2ADB64EE24969A3700EC55F9 /* Main.storyboard in Resources */,
+				2ADB64FF2496A1D000EC55F9 /* locationBtn.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
