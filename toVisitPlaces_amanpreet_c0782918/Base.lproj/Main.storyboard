@@ -72,6 +72,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JCr-kZ-rz6">
                                 <rect key="frame" x="317" y="785" width="67" height="67"/>
                                 <state key="normal" image="locationBtn.png"/>
+                                <connections>
+                                    <action selector="locationBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BJi-hE-yyo"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
