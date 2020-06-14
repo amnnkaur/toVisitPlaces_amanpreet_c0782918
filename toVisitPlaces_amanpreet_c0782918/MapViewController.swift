@@ -31,6 +31,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:)))
                tap.numberOfTapsRequired = 2
                mapView.addGestureRecognizer(tap)
+        loadData()
     }
     
     func getDataFilePath() -> String {
@@ -163,9 +164,47 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                      
                   }
        }
+    
+//    func geocode()  {
+//        CLGeocoder().reverseGeocodeLocation() { placemark, error in
+//            guard let placemark = placemark, error == nil else {
+//                completion(nil, error)
+//                return
+//            }
+//            completion(placemark, nil)
+//        }
+//    }
 }
 
 extension MapViewController {
+    
+       func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    
+    
+            if annotation is MKUserLocation {
+                return nil
+            }
+    
+                let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "droppablePin")
+                pinAnnotation.animatesDrop = true
+                pinAnnotation.pinTintColor = .orange
+                pinAnnotation.canShowCallout = true
+                pinAnnotation.rightCalloutAccessoryView = UIButton(type: .contactAdd)
+    
+                return pinAnnotation
+    
+        }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+         let alertController = UIAlertController(title: "Add to Favourites", message:
+                       "Do you want to add marked Location to favourites?", preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Yes", style:  .default, handler: { (UIAlertAction) in
+//            geocode(latitude: <#T##Double#>, longitude: <#T##Double#>, completion: <#T##([CLPlacemark]?, Error?) -> Void#>)
+        }))
+                    alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                    self.present(alertController, animated: true, completion: nil)
+                    
+    }
 
 func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(overlay: overlay)
