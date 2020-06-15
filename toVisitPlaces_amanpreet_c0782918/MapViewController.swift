@@ -18,6 +18,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let destCoordinate = MKDirections.Request()
     let button = UIButton()
     var places:[Places]?
+    let defaults = UserDefaults.standard
+    var lat : Double = 0.0
+    var long : Double = 0.0
+    var drag : Bool? = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +39,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                mapView.addGestureRecognizer(tap)
         
         loadData()
+               
+    }
+    
+    func dragablePin(){
+        self.lat = defaults.double(forKey: "latitude")
+        self.long = defaults.double(forKey: "longitude")
         
+        self.drag = defaults.bool(forKey: "bool")
         
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long )
+        print(lat, long)
+        mapView.addAnnotation(annotation)
     }
     
     
@@ -246,6 +261,15 @@ extension MapViewController {
             if annotation is MKUserLocation {
                 return nil
             }
+        
+//        if annotation.coordinate.latitude == self.lat || annotation.coordinate.longitude == self.long{
+//            let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "droppablePin")
+//            pinAnnotation.isDraggable = drag ?? false
+////            pinAnnotation.markerTintColor = .systemPink
+////            pinAnnotation.glyphTintColor = .white
+//            pinAnnotation.tintColor = .orange
+//            return pinAnnotation
+//        }
         
                 let pinAnnotation = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "marker")
                 pinAnnotation.markerTintColor = .systemPink

@@ -14,6 +14,8 @@ class PlacesTableViewController: UITableViewController {
     
     var deleteArray : [Places]?
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -104,6 +106,24 @@ class PlacesTableViewController: UITableViewController {
         return cell!
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let editedPlace =  self.places![indexPath.row]
+        
+        defaults.set(editedPlace.placeLat, forKey: "latitude")
+        defaults.set(editedPlace.placeLong, forKey: "longitude")
+        defaults.set(true, forKey: "bool")
+        
+        let mapVC = self.storyboard?.instantiateViewController(withIdentifier: "mapViewController") as! MapViewController
+        mapVC.dragablePin()
+        self.navigationController?.pushViewController(mapVC, animated: true)
+        
+//        print(editedPlace.placeLat , editedPlace.placeLong)
+        
+        
+        
+//        print(self.places?[indexPath.row].placeName)
+    }
 
     /*
     // Override to support conditional editing of the table view.
