@@ -69,7 +69,7 @@ class PlacesTableViewController: UITableViewController {
         let filePath = getDataFilePath()
 
         var saveString = ""
-        for place in deleteArray!{
+        for place in self.deleteArray!{
            saveString = "\(saveString)\(place.placeLat),\(place.placeLong),\(place.placeName),\(place.city),\(place.country),\(place.postalCode)\n"
             do{
            try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
@@ -117,13 +117,15 @@ class PlacesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        var deletedRowArray = self.places?.remove(at: indexPath.row)
+//        var deletedRowArray = self.places?.remove(at: indexPath.row)
     
         if editingStyle == .delete {
             
             self.places?.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
+            self.deleteArray = self.places
+            deleteRow()
             
 //            print("delete")
             
