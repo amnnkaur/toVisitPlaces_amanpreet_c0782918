@@ -11,7 +11,9 @@ import UIKit
 class PlacesTableViewController: UITableViewController {
     
     var places : [Places]?
-
+    
+    var deleteArray : [Places]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,6 +64,21 @@ class PlacesTableViewController: UITableViewController {
             }
         }
     }
+    
+    func deleteRow() {
+        let filePath = getDataFilePath()
+
+        var saveString = ""
+        for place in deleteArray!{
+           saveString = "\(saveString)\(place.placeLat),\(place.placeLong),\(place.placeName),\(place.city),\(place.country),\(place.postalCode)\n"
+            do{
+           try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
+            }
+            catch{
+                print(error)
+            }
+        }
+    }
 
     // MARK: - Table view data source
 
@@ -95,14 +112,18 @@ class PlacesTableViewController: UITableViewController {
         return true
     }
     */
-
     
+   
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        var deletedRowArray = self.places?.remove(at: indexPath.row)
+    
         if editingStyle == .delete {
             
             self.places?.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
             
 //            print("delete")
             

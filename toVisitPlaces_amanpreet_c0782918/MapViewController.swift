@@ -81,7 +81,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
      }
     
      
-    @objc func saveData() {
+    func saveData() {
          let filePath = getDataFilePath()
 
          var saveString = ""
