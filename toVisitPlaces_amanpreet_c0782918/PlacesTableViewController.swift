@@ -104,9 +104,8 @@ class PlacesTableViewController: UITableViewController {
             self.places?.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
-            print("delete")
+//            print("delete")
             
-            tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
