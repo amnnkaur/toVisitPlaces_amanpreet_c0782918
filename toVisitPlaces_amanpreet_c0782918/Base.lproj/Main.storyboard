@@ -66,7 +66,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6FV-Vz-e5X">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XEw-Dd-cyD">
                                 <rect key="frame" x="20" y="88" width="374" height="774"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JCr-kZ-rz6">
@@ -79,18 +79,20 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="6FV-Vz-e5X" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="IeH-Tz-fnW"/>
-                            <constraint firstItem="6FV-Vz-e5X" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="T8Y-Hk-aVJ"/>
-                            <constraint firstItem="6FV-Vz-e5X" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="W9p-Eg-urL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JCr-kZ-rz6" secondAttribute="trailing" constant="30" id="J9t-9z-Vui"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JCr-kZ-rz6" secondAttribute="trailing" constant="30" id="ZT4-V2-bct"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JCr-kZ-rz6" secondAttribute="bottom" constant="30" id="bGx-SS-owK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JCr-kZ-rz6" secondAttribute="bottom" constant="10" id="gjB-Q2-sKQ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6FV-Vz-e5X" secondAttribute="trailing" constant="20" id="y8t-x7-vrf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XEw-Dd-cyD" secondAttribute="trailing" constant="20" id="sQH-GA-KxJ"/>
+                            <constraint firstItem="XEw-Dd-cyD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="tOd-ZN-7Fd"/>
+                            <constraint firstItem="XEw-Dd-cyD" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="u2y-8a-emB"/>
+                            <constraint firstItem="XEw-Dd-cyD" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="uez-nH-MGz"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="O6h-58-KSh"/>
                     <connections>
-                        <outlet property="mapView" destination="6FV-Vz-e5X" id="N88-RG-VIE"/>
+                        <outlet property="mapView" destination="XEw-Dd-cyD" id="xW1-9I-iPY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -113,7 +115,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="arP-8X-GSC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-597.10144927536237" y="117.85714285714285"/>
+            <point key="canvasLocation" x="-400" y="118"/>
         </scene>
     </scenes>
     <resources>

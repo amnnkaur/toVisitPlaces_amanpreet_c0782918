@@ -12,16 +12,13 @@ import MapKit
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    
     var locationManager = CLLocationManager()
     var destinationCoordinates : CLLocationCoordinate2D!
     let destCoordinate = MKDirections.Request()
     let button = UIButton()
     var places:[Places]?
     
-//    var address =
-    
-    var favPlace: CLLocation?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -32,9 +29,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:)))
                tap.numberOfTapsRequired = 2
                mapView.addGestureRecognizer(tap)
+        
         loadData()
         
         
@@ -67,6 +66,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                         places?.append(place)
                     }
                 }
+//                print(places?.count)
             }
             catch{
                 print(error)
@@ -79,6 +79,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
              placeListVC.places = self.places
          }
      }
+    
      
     @objc func saveData() {
          let filePath = getDataFilePath()
@@ -214,6 +215,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
           
 //          print(placeName ,city, state, postalCode , country, self.destinationCoordinates.latitude, self.destinationCoordinates.longitude)
             self.places?.append(place)
+            self.saveData()
+           
 
 //
 //                print("name:", placemark.name ?? "unknown")

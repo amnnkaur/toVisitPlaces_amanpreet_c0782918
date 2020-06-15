@@ -20,6 +20,41 @@ class PlacesTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        loadData()
+    }
+    
+    func getDataFilePath() -> String {
+           let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+           let filePath = documentPath.appending("/places-data.txt")
+           return filePath
+       }
+    
+    func loadData() {
+        places = [Places]()
+        
+        let filePath = getDataFilePath()
+        
+        if FileManager.default.fileExists(atPath: filePath){
+            do{
+                //creating string of file path
+             let fileContent = try String(contentsOfFile: filePath)
+                
+                let contentArray = fileContent.components(separatedBy: "\n")
+                for content in contentArray{
+                   
+                    let placeContent = content.components(separatedBy: ",")
+                    if placeContent.count == 6 {
+                       let place = Places(placeLat: Double(placeContent[0])!, placeLong: Double(placeContent[1])!, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
+                        places?.append(place)
+                    }
+            }
+               
+//                print(self.places?.count)
+            }
+            catch{
+                print(error)
+            }
+        }
     }
 
     // MARK: - Table view data source
@@ -37,13 +72,12 @@ class PlacesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let place = places![indexPath.row]
-        
+        let place = self.places![indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell")
         cell?.textLabel?.text = place.placeName + " , " + place.city
         cell?.detailTextLabel?.text = place.country + " , " + place.postalCode
     
-
+//        print(place.placeName, place.country)
         return cell!
     }
     
