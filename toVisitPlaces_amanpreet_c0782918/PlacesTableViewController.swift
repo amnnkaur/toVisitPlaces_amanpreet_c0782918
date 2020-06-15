@@ -40,8 +40,8 @@ class PlacesTableViewController: UITableViewController {
         let place = places![indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell")
-        cell?.textLabel?.text = "\(place.latitude)"
-        cell?.detailTextLabel?.text = "\(place.longitude)"
+        cell?.textLabel?.text = place.placeName + " , " + place.city
+        cell?.detailTextLabel?.text = place.country + " , " + place.postalCode
     
 
         return cell!

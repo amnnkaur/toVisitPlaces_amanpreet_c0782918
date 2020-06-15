@@ -17,6 +17,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let destCoordinate = MKDirections.Request()
     let button = UIButton()
     var places:[Places]?
+    
+//    var address =
+    
+    var favPlace: CLLocation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +36,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                tap.numberOfTapsRequired = 2
                mapView.addGestureRecognizer(tap)
         loadData()
-        button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        
+        
     }
     
     
@@ -52,14 +57,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             do{
                 //creating string of file path
              let fileContent = try String(contentsOfFile: filePath)
-                //separating books from each other
+                
                 let contentArray = fileContent.components(separatedBy: "\n")
                 for content in contentArray{
-                    //separating each book's content
+                   
                     let placeContent = content.components(separatedBy: ",")
                     if placeContent.count == 6 {
-//                        let place = Places(latitude: Double(placeContent[0]), longitude: Double(placeContent[1]), placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
-//                        places?.append(place)
+                       let place = Places(placeLat: Double(placeContent[0])!, placeLong: Double(placeContent[1])!, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
+                        places?.append(place)
                     }
                 }
             }
@@ -80,7 +85,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
          var saveString = ""
          for place in places!{
-            saveString = "\(saveString)\(place.latitude) \(place.longitude) \(place.placeName) \(place.city) \(place.country) \(place.postalCode)\n"
+            saveString = "\(saveString)\(place.placeLat) \(place.placeLong) \(place.placeName) \(place.city) \(place.country) \(place.postalCode)\n"
              do{
             try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
              }
@@ -136,7 +141,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                   let sourceCoordinate = mapView.userLocation.coordinate
                   
                   let source = CLLocationCoordinate2DMake(sourceCoordinate.latitude, sourceCoordinate.longitude)
-                  let destination = CLLocationCoordinate2DMake(self.destinationCoordinates?.latitude ?? 0, self.destinationCoordinates?.longitude ?? 0)
+                    let destination = CLLocationCoordinate2DMake(self.destinationCoordinates?.latitude ?? 0.0, self.destinationCoordinates?.longitude ?? 0.0)
                   
                   let sourcePlacemark = MKPlacemark(coordinate: source)
                   let destPlacemark = MKPlacemark(coordinate: destination)
@@ -174,14 +179,49 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                print("CLError:", error)
                return
             }
-           else if let placemark = placemark?.first {
-        
-                print("name:", placemark.name ?? "unknown")
-                print("neighborhood:", placemark.subLocality ?? "unknown")
-                print("city:", placemark.locality ?? "unknown")
-                print("state:", placemark.administrativeArea ?? "unknown")
-                print("zip code:", placemark.postalCode ?? "unknown")
-                print("country:", placemark.country ?? "unknown", terminator: "\n\n")
+           else if let placemark = placemark?[0] {
+            
+            var placeName = ""
+            var neighbourhood = ""
+            var city = ""
+            var state = ""
+            var postalCode = ""
+            var country = ""
+            
+            
+            if let name = placemark.name {
+                placeName += name
+                        }
+            if let sublocality = placemark.subLocality {
+                neighbourhood += sublocality
+                        }
+            if let locality = placemark.subLocality {
+                 city += locality
+                        }
+            if let area = placemark.administrativeArea {
+                          state += area
+                      }
+            if let code = placemark.postalCode {
+                          postalCode += code
+                      }
+            if let cntry = placemark.country {
+                                    country += cntry
+                                }
+//          print(placeName ,city, state, postalCode , country)
+            
+            
+            let place = Places(placeLat: self.destinationCoordinates.latitude, placeLong:self.destinationCoordinates.longitude, placeName: placeName, city: city, postalCode: postalCode, country: country)
+          
+//          print(placeName ,city, state, postalCode , country, self.destinationCoordinates.latitude, self.destinationCoordinates.longitude)
+            self.places?.append(place)
+
+//
+//                print("name:", placemark.name ?? "unknown")
+//                print("neighborhood:", placemark.subLocality ?? "unknown")
+//                print("city:", placemark.locality ?? "unknown")
+//                print("state:", placemark.administrativeArea ?? "unknown")
+//                print("zip code:", placemark.postalCode ?? "unknown")
+//                print("country:", placemark.country ?? "unknown", terminator: "\n\n")
             
             
                
@@ -208,7 +248,10 @@ extension MapViewController {
                 pinAnnotation.markerTintColor = .systemPink
                 pinAnnotation.glyphTintColor = .white
                 pinAnnotation.canShowCallout = true
-                pinAnnotation.rightCalloutAccessoryView = UIButton(type: .infoDark)
+        
+                button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+                pinAnnotation.rightCalloutAccessoryView = button
                 return pinAnnotation
     
         }
@@ -218,18 +261,30 @@ extension MapViewController {
             "Do you want to add marked Location to favourites?", preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "Yes", style:  .default, handler: { (UIAlertAction) in
             self.geocode()
+            
         }))
     
-                    alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                    self.present(alertController, animated: true, completion: nil)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            self.present(alertController, animated: true, completion: nil)
                     
     }
 
 func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            let renderer = MKPolylineRenderer(overlay: overlay)
-            renderer.strokeColor = UIColor.orange
-            renderer.lineWidth = 5.0
-            return renderer
-     }
+    
+    let renderer = MKPolylineRenderer(overlay: overlay)
+
+    if (destCoordinate.transportType == .automobile){
+                    renderer.strokeColor = UIColor.orange
+                    renderer.lineWidth = 5.0
+                    return renderer
+    }  else if (destCoordinate.transportType == .walking){
+                    renderer.strokeColor = UIColor.blue
+                    renderer.lineDashPattern = [2,4]
+                    renderer.lineWidth = 5.0
+                    return renderer
+    
+    }
+    return renderer
 }
 
+}

@@ -10,16 +10,16 @@ import Foundation
 
 class Places{
     
-    var latitude: Double
-    var longitude: Double
+    var placeLat: Double
+    var placeLong: Double
     var placeName :String
     var city :String
     var postalCode : String
     var country : String
     
-    init(latitude:Double , longitude: Double, placeName:String, city:String, postalCode: String, country:String) {
-        self.latitude = latitude
-        self.longitude = longitude
+    init(placeLat:Double , placeLong: Double, placeName:String, city:String, postalCode: String, country:String) {
+        self.placeLat = placeLat
+        self.placeLong = placeLong
         self.placeName = placeName
         self.city = city
         self.postalCode = postalCode
