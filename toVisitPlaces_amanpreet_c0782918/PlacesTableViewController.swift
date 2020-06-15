@@ -113,6 +113,7 @@ class PlacesTableViewController: UITableViewController {
         defaults.set(editedPlace.placeLat, forKey: "latitude")
         defaults.set(editedPlace.placeLong, forKey: "longitude")
         defaults.set(true, forKey: "bool")
+        defaults.set(indexPath.row, forKey: "edit")
         
         let newVC = self.storyboard?.instantiateViewController(withIdentifier: "newVC") as! PlaceEditViewController
 //        mapVC.dragablePin()
