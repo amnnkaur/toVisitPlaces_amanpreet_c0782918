@@ -44,7 +44,7 @@ class PlacesTableViewController: UITableViewController {
                    
                     let placeContent = content.components(separatedBy: ",")
                     if placeContent.count == 6 {
-                       let place = Places(placeLat: Double(placeContent[0])!, placeLong: Double(placeContent[1])!, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
+                        let place = Places(placeLat: Double(placeContent[0]) ?? 0.0, placeLong: Double(placeContent[1]) ?? 0.0, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
                         places?.append(place)
                     }
             }

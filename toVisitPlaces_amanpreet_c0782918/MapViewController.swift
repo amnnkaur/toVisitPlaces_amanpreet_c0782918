@@ -62,7 +62,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                    
                     let placeContent = content.components(separatedBy: ",")
                     if placeContent.count == 6 {
-                       let place = Places(placeLat: Double(placeContent[0])!, placeLong: Double(placeContent[1])!, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
+                        let place = Places(placeLat: Double(placeContent[0]) ?? 0.0, placeLong: Double(placeContent[1]) ?? 0.0, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
                         places?.append(place)
                     }
                 }
@@ -86,7 +86,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
          var saveString = ""
          for place in places!{
-            saveString = "\(saveString)\(place.placeLat) \(place.placeLong) \(place.placeName) \(place.city) \(place.country) \(place.postalCode)\n"
+            saveString = "\(saveString)\(place.placeLat),\(place.placeLong),\(place.placeName),\(place.city),\(place.country),\(place.postalCode)\n"
              do{
             try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
              }
@@ -216,7 +216,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 //          print(placeName ,city, state, postalCode , country, self.destinationCoordinates.latitude, self.destinationCoordinates.longitude)
             self.places?.append(place)
             self.saveData()
-           
+            self.navigationController?.popToRootViewController(animated: true)
 
 //
 //                print("name:", placemark.name ?? "unknown")
