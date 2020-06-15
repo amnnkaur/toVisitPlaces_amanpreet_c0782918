@@ -22,6 +22,16 @@ class PlaceEditViewController: UIViewController, MKMapViewDelegate {
         editMap.delegate = self
                 
         self.editMap.addAnnotation(dragablePin())
+        let latDelta: CLLocationDegrees = 0.05
+        let longDelta: CLLocationDegrees = 0.05
+         
+         // 3 - Creating the span, location coordinate and region
+        let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)
+        let customLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        let region = MKCoordinateRegion(center: customLocation, span: span)
+               
+         // 4 - assign region to map
+        editMap.setRegion(region, animated: true)
     
     }
     
@@ -54,6 +64,7 @@ class PlaceEditViewController: UIViewController, MKMapViewDelegate {
 
 }
 
+extension PlaceEditViewController{
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
@@ -63,8 +74,23 @@ class PlaceEditViewController: UIViewController, MKMapViewDelegate {
                 pinAnnotation.glyphTintColor = .white
                 pinAnnotation.isDraggable = true
                 pinAnnotation.canShowCallout = true
+                pinAnnotation.rightCalloutAccessoryView = UIButton(type: .contactAdd)
                 return pinAnnotation
     
     }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+            let alertController = UIAlertController(title: "Add to Favourites", message:
+                "Are you sure to change this location?", preferredStyle: .alert)
+           alertController.addAction(UIAlertAction(title: "Yes", style:  .default, handler: { (UIAlertAction) in
+              
+               
+           }))
+       
+           alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+               self.present(alertController, animated: true, completion: nil)
+                       
+       }
 
 
+}
