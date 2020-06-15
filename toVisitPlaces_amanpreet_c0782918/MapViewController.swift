@@ -18,10 +18,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let destCoordinate = MKDirections.Request()
     let button = UIButton()
     var places:[Places]?
-    let defaults = UserDefaults.standard
-    var lat : Double = 0.0
-    var long : Double = 0.0
-    var drag : Bool? = false
+//    let defaults = UserDefaults.standard
+//    var lat : Double = 0.0
+//    var long : Double = 0.0
+//    var drag : Bool? = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,17 +42,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                
     }
     
-    func dragablePin(){
-        self.lat = defaults.double(forKey: "latitude")
-        self.long = defaults.double(forKey: "longitude")
-        
-        self.drag = defaults.bool(forKey: "bool")
-        
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long )
-        print(lat, long)
-        mapView.addAnnotation(annotation)
-    }
+//    func dragablePin(){
+//        self.lat = defaults.double(forKey: "latitude")
+//        self.long = defaults.double(forKey: "longitude")
+//        
+//        self.drag = defaults.bool(forKey: "bool")
+//        
+//        let annotation = MKPointAnnotation()
+//        annotation.coordinate = CLLocationCoordinate2D(latitude: self.lat, longitude: self.long )
+//        let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "droppablePin")
+//        pinAnnotation.isDraggable  = true
+//        pinAnnotation.pinTintColor = .orange
+////        print(lat, long)
+//        self.mapView?.addAnnotation(annotation)
+//    }
     
     
     
@@ -270,7 +273,7 @@ extension MapViewController {
 //            pinAnnotation.tintColor = .orange
 //            return pinAnnotation
 //        }
-        
+//
                 let pinAnnotation = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "marker")
                 pinAnnotation.markerTintColor = .systemPink
                 pinAnnotation.glyphTintColor = .white
