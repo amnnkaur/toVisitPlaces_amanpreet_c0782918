@@ -18,7 +18,8 @@ class PlacesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+          self.navigationController?.view.tintColor = .systemPink
+       
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -83,6 +84,11 @@ class PlacesTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection
+                                section: Int) -> String? {
+       return "Your Favourite Places are:"
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -101,6 +107,8 @@ class PlacesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell")
         cell?.textLabel?.text = place.placeName + " , " + place.city
         cell?.detailTextLabel?.text = place.country + " , " + place.postalCode
+        
+//        cell?.contentView.backgroundColor = UIColor.
     
 //        print(place.placeName, place.country)
         return cell!
@@ -118,6 +126,8 @@ class PlacesTableViewController: UITableViewController {
         let newVC = self.storyboard?.instantiateViewController(withIdentifier: "newVC") as! PlaceEditViewController
 //        mapVC.dragablePin()
         self.navigationController?.pushViewController(newVC, animated: true)
+        
+        
         
 //        print(editedPlace.placeLat , editedPlace.placeLong)
         

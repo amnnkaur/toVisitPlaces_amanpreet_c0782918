@@ -34,6 +34,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
+        self.navigationController?.view.tintColor = .systemPink
+//        self.navigationItem.leftBarButtonItem?.title = "Back"
+        
+         let backButton = UIBarButtonItem()
+            backButton.title = "Back"
+            self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:)))
                tap.numberOfTapsRequired = 2
                mapView.addGestureRecognizer(tap)
@@ -127,7 +135,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                    
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = self.destinationCoordinates!
-                    annotation.title = "Your destination"
+//                    annotation.title = "Your destination"
+                let geocoder = CLGeocoder()
+                geocoder.reverseGeocodeLocation(CLLocation(latitude: destinationCoordinates.latitude, longitude: destinationCoordinates.longitude)) { (placemarks, error) in
+                    if let places = placemarks {
+                        for place in places {
+                            annotation.title = place.name
+                            annotation.subtitle = "\(place.locality!) ,  \(place.postalCode!)"
+                        }
+                    }
+                }
                     self.mapView.addAnnotation(annotation)
                }
            }
@@ -278,6 +295,7 @@ extension MapViewController {
                 pinAnnotation.markerTintColor = .systemPink
                 pinAnnotation.glyphTintColor = .white
                 pinAnnotation.canShowCallout = true
+        
         
                 button.setImage(UIImage(systemName: "star.fill"), for: .normal)
                 button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)

@@ -13,15 +13,23 @@ class PlaceEditViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var editMap: MKMapView!
     let defaults = UserDefaults.standard
-       var lat : Double = 0.0
-       var long : Double = 0.0
-       var drag : Bool? = false
+    var lat : Double = 0.0
+    var long : Double = 0.0
+    var drag : Bool? = false
     var editedPlace : Int = 0
     var editPlaces : [Places]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         editMap.delegate = self
+         self.navigationController?.view.tintColor = .systemPink
+//        self.navigationItem.leftBarButtonItem?.title = "Back"
+        self.navigationItem.title = "Edit your location"
+        
+        let backButton = UIBarButtonItem()
+        backButton.title = "Back"
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+               
         
         self.editedPlace = defaults.integer(forKey: "edit")
                 
@@ -50,7 +58,16 @@ class PlaceEditViewController: UIViewController, MKMapViewDelegate {
     print("Lat: \(lat): Long: \(long)")
     let annotation = MKPointAnnotation()
     annotation.coordinate = CLLocationCoordinate2D(latitude: self.lat, longitude: self.long)
-    annotation.title = "Your Favourite Location"
+//    annotation.title = "Your Favourite Location"
+    let geocoder = CLGeocoder()
+    geocoder.reverseGeocodeLocation(CLLocation(latitude: lat, longitude: long)) { (placemarks, error) in
+        if let places = placemarks {
+            for place in places {
+                annotation.title = place.name
+                annotation.subtitle = "\(place.locality!) ,  \(place.postalCode!)"
+            }
+        }
+    }
     //        self.mapView.addAnnotation(annotation)
     return annotation
     
@@ -123,9 +140,9 @@ extension PlaceEditViewController{
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
   
-        let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "marker")
-                pinAnnotation.tintColor = .systemPink
-//                pinAnnotation.glyphTintColor = .white
+        let pinAnnotation = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "marker")
+                pinAnnotation.markerTintColor = .systemPink
+                pinAnnotation.glyphTintColor = .white
                 pinAnnotation.isDraggable = true
                 pinAnnotation.canShowCallout = true
                 pinAnnotation.rightCalloutAccessoryView = UIButton(type: .contactAdd)

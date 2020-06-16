@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Favourite Places-->
+        <!--Places-->
         <scene sceneID="yzY-pB-tbf">
             <objects>
                 <tableViewController id="nG2-6g-AsO" customClass="PlacesTableViewController" customModule="toVisitPlaces_amanpreet_c0782918" customModuleProvider="target" sceneMemberID="viewController">
@@ -46,7 +46,7 @@
                             <outlet property="delegate" destination="nG2-6g-AsO" id="2ny-sb-OLt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Favourite Places" id="XfX-vV-BXD">
+                    <navigationItem key="navigationItem" title="Places" id="XfX-vV-BXD">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="AaJ-Qy-yGr">
                             <connections>
                                 <segue destination="BYZ-38-t0r" kind="show" id="Ril-m5-jdr"/>
